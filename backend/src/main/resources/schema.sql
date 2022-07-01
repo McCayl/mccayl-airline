@@ -14,5 +14,5 @@ CREATE TABLE users (
     last_name VARCHAR(45) NOT NULL,
     phone INT NOT NULL,
     flight_id INT DEFAULT NULL,
-    CONSTRAINT fk_flight FOREIGN KEY(flight_id) REFERENCES flight(id)
+    CONSTRAINT fk_flight FOREIGN KEY(flight_id) REFERENCES flight(id) ON DELETE SET NULL
 );
