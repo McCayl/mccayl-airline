@@ -21,7 +21,7 @@ public class Flight {
     private LocalDateTime arrival;
 
     @OneToMany(mappedBy = "flight")
-    private List <User> users;
+    private List <Passenger> passengers;
 
     public Flight() {}
 
@@ -73,21 +73,21 @@ public class Flight {
         this.arrival = arrival;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Passenger> getPassengers() {
+        return passengers;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers = passengers;
     }
 
-    public void addUser(User user) {
-        this.users.add(user);
-        user.setFlight(this);
+    public void addPassenger(Passenger passenger) {
+        this.passengers.add(passenger);
+        passenger.setFlight(this);
     }
 
-    public void delUser(User user) {
-        this.users.remove(user);
-        user.setFlight(null);
+    public void delPassenger(Passenger passenger) {
+        this.passengers.remove(passenger);
+        passenger.setFlight(null);
     }
 }

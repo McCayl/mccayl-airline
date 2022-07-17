@@ -1,7 +1,7 @@
 package com.mccayl.mccaylairlines.controller;
 
 import com.mccayl.mccaylairlines.model.Flight;
-import com.mccayl.mccaylairlines.model.User;
+import com.mccayl.mccaylairlines.model.Passenger;
 import com.mccayl.mccaylairlines.service.FlightService;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,15 +43,15 @@ public class FlightController {
         return flightService.updFlight(id, flight);
     }
 
-    @PostMapping("{id}/users")
-    public void addUser(@PathVariable Long id,
-                        @RequestBody User user) {
-        flightService.addUser(id, user);
+    @PostMapping("{id}/passengers")
+    public void addPassenger(@PathVariable Long id,
+                            @RequestBody Passenger passenger) {
+        flightService.addPassenger(id, passenger);
     }
 
-    @DeleteMapping("{id}/users")
-    public void delUser(@PathVariable Long id,
-                        @RequestBody User user) {
-        flightService.delUser(id, user);
+    @DeleteMapping("{id}/passengers")
+    public void delPassenger(@PathVariable Long id,
+                            @RequestBody Passenger passenger) {
+        flightService.delPassenger(id, passenger);
     }
 }

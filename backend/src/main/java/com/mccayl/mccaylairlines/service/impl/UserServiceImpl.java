@@ -11,40 +11,39 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepo) {
-        this.userRepo = userRepo;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public List<User> getAll() {
-        return userRepo.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public User getById(Long id) {
-        return userRepo.findById(id)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Override
     public User addUser(User user) {
-        return userRepo.saveAndFlush(user);
+        return userRepository.saveAndFlush(user);
     }
 
     @Override
     public void delById(Long id) {
-        userRepo.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public User updUser(Long id, User newUser) {
-        return userRepo.findById(id).map(user -> {
-            user.setFirstName(newUser.getFirstName());
-            user.setLastName(newUser.getLastName());
-            user.setPhone(newUser.getPhone());
-            return userRepo.saveAndFlush(user);
+        return userRepository.findById(id).map(user -> {
+            user.setUsername(newUser.getUsername());
+            user.setPassword(newUser.getPassword());
+            return userRepository.saveAndFlush(user);
         }).orElseThrow(() -> new UserNotFoundException(id));
     }
 }

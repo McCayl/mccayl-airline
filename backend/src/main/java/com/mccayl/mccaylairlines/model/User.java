@@ -1,8 +1,7 @@
 package com.mccayl.mccaylairlines.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -10,22 +9,23 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private Integer phone;
+    private String username;
+    private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "flight_id")
-    @JsonIgnore
-    private Flight flight;
+    @ManyToMany
+    @JoinTable(
+            name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
 
     public User() {}
 
-    public User(Long id, String firstName, String lastName, Integer phone) {
+    public User(Long id, String username, String password) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
+        this.username = username;
+        this.password = password;
     }
 
     public Long getId() {
@@ -36,35 +36,27 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public Integer getPhone() {
-        return phone;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
-    }
-
-    public Flight getFlight() {
-        return flight;
-    }
-
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

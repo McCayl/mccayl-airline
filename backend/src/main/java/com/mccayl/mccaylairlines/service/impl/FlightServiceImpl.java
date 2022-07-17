@@ -2,9 +2,9 @@ package com.mccayl.mccaylairlines.service.impl;
 
 import com.mccayl.mccaylairlines.exception.FlightNotFoundException;
 import com.mccayl.mccaylairlines.model.Flight;
-import com.mccayl.mccaylairlines.model.User;
+import com.mccayl.mccaylairlines.model.Passenger;
 import com.mccayl.mccaylairlines.repository.FlightRepository;
-import com.mccayl.mccaylairlines.repository.UserRepository;
+import com.mccayl.mccaylairlines.repository.PassengerRepository;
 import com.mccayl.mccaylairlines.service.FlightService;
 import org.springframework.stereotype.Service;
 
@@ -13,62 +13,61 @@ import java.util.List;
 @Service
 public class FlightServiceImpl implements FlightService {
 
-    private FlightRepository flightRepo;
-    private UserRepository userRepo;
+    private FlightRepository flightRepository;
+    private PassengerRepository passengerRepository;
 
-    public FlightServiceImpl(FlightRepository flightRepo,
-                             UserRepository userRepo) {
-        this.flightRepo = flightRepo;
-        this.userRepo = userRepo;
+    public FlightServiceImpl(FlightRepository flightRepository, PassengerRepository passengerRepository) {
+        this.flightRepository = flightRepository;
+        this.passengerRepository = passengerRepository;
     }
 
     @Override
     public List<Flight> getAll() {
-        return flightRepo.findAll();
+        return flightRepository.findAll();
     }
 
     @Override
     public Flight getById(Long id) {
-        return flightRepo.findById(id)
+        return flightRepository.findById(id)
                 .orElseThrow(() -> new FlightNotFoundException(id));
     }
 
     @Override
     public Flight addFlight(Flight flight) {
-        return flightRepo.saveAndFlush(flight);
+        return flightRepository.saveAndFlush(flight);
     }
 
     @Override
     public void delById(Long id) {
-        flightRepo.deleteById(id);
+        flightRepository.deleteById(id);
     }
 
     @Override
     public Flight updFlight(Long id, Flight newFlight) {
-        return flightRepo.findById(id).map(flight -> {
+        return flightRepository.findById(id).map(flight -> {
             flight.setFromCity(newFlight.getFromCity());
             flight.setToCity(newFlight.getToCity());
             flight.setDeparture(newFlight.getDeparture());
             flight.setArrival(newFlight.getArrival());
-            return flightRepo.saveAndFlush(flight);
+            return flightRepository.saveAndFlush(flight);
         }).orElseThrow(() -> new FlightNotFoundException(id));
     }
 
     @Override
-    public void addUser(Long id, User user) {
-        flightRepo.findById(id).map(flight -> {
-            flight.addUser(user);
-            userRepo.saveAndFlush(user);
-            return flightRepo.saveAndFlush(flight);
+    public void addPassenger(Long id, Passenger passenger) {
+        flightRepository.findById(id).map(flight -> {
+            flight.addPassenger(passenger);
+            passengerRepository.saveAndFlush(passenger);
+            return flightRepository.saveAndFlush(flight);
         }).orElseThrow(() -> new FlightNotFoundException(id));
     }
 
     @Override
-    public void delUser(Long id, User user) {
-        flightRepo.findById(id).map(flight -> {
-            flight.delUser(user);
-            userRepo.saveAndFlush(user);
-            return flightRepo.saveAndFlush(flight);
+    public void delPassenger(Long id, Passenger passenger) {
+        flightRepository.findById(id).map(flight -> {
+            flight.delPassenger(passenger);
+            passengerRepository.saveAndFlush(passenger);
+            return flightRepository.saveAndFlush(flight);
         }).orElseThrow(() -> new FlightNotFoundException(id));
     }
 }
