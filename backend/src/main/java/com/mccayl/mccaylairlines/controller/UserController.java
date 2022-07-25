@@ -1,5 +1,6 @@
 package com.mccayl.mccaylairlines.controller;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mccayl.mccaylairlines.model.User;
 import com.mccayl.mccaylairlines.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -41,4 +42,19 @@ public class UserController {
                         @RequestBody User user) {
         return userService.updUser(id, user);
     }
+
+    @PostMapping("role")
+    public User addRoleToUser(@RequestBody ObjectNode json) {
+        return userService.addRoleToUser(
+                json.get("username").asText(),
+                json.get("roleName").asText());
+    }
+
+    @DeleteMapping("role")
+    public User delRoleFromUser(@RequestBody ObjectNode json) {
+        return userService.delRoleFromUser(
+                json.get("username").asText(),
+                json.get("roleName").asText());
+    }
+
 }

@@ -1,7 +1,8 @@
 package com.mccayl.mccaylairlines.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -18,7 +19,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public User() {}
 
@@ -52,11 +53,20 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public void delRole(Role role) {
+        roles.remove(role);
+    }
+
 }
